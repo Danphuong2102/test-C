@@ -1,1 +1,50 @@
+#include<stdio.h>
+#include<stdlib.h>
 
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* newNode (int data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
+
+void deleteNode (struct Node** head) {
+    struct Node* prev = *head;
+    while (prev != NULL && prev->next != NULL) {
+        if (((prev->next->data) % 2) != 0) {
+            struct Node *temp = prev->next;
+            prev->next = temp->next;
+            free(temp);
+        }
+        else prev = prev->next;
+    }
+}
+
+void printList(struct Node* head) {
+    struct Node* curr = head;
+    while (curr != NULL){
+        printf(" %d", curr->data);
+        curr = curr->next;
+    }
+}
+
+int main() {
+    struct Node* head = newNode(5);
+    head->next = newNode(2);
+    head->next->next = newNode(7);
+    head->next->next->next = newNode(9);
+    head->next->next->next->next = newNode(12);
+    head->next->next->next->next->next = newNode(16);
+    printf("Link List:");
+    printList(head);
+    printf("\n");
+    deleteNode(&head);
+    printf("list after deletion:");
+    printList(head);
+}
